@@ -1,107 +1,77 @@
 [![INFORMS Journal on Computing Logo](https://INFORMSJoC.github.io/logos/INFORMS_Journal_on_Computing_Header.jpg)](https://pubsonline.informs.org/journal/ijoc)
 
-# CacheTest
+# An Intelligent End-to-End NAS Framework for Electricity Forecasting
 
 This archive is distributed in association with the [INFORMS Journal on
 Computing](https://pubsonline.informs.org/journal/ijoc) under the [MIT License](LICENSE).
 
-The software and data in this repository are a snapshot of the software and data
+The code and data in this repository are a snapshot of the software and data
 that were used in the research reported on in the paper 
-[This is a Template](https://doi.org/10.1287/ijoc.2019.0000) by T. Ralphs. 
-The snapshot is based on 
-[this SHA](https://github.com/tkralphs/JoCTemplate/commit/f7f30c63adbcb0811e5a133e1def696b74f3ba15) 
-in the development repository. 
-
-**Important: This code is being developed on an on-going basis at 
-https://github.com/tkralphs/JoCTemplate. Please go there if you would like to
-get a more recent version or would like support**
+[An Intelligent End-to-End NAS Framework for Electricity Forecasting](https://doi.org/10.1287/ijoc.2023.0034) (IAAS)
+, authored by Jin Yang , Guangxin Jiang , Yinan Wang and Ying Chen. 
 
 ## Cite
 
 To cite the contents of this repository, please cite both the paper and this repo, using their respective DOIs.
 
-https://doi.org/10.1287/ijoc.2019.0000
+https://doi.org/10.1287/ijoc.2023.0034
 
-https://doi.org/10.1287/ijoc.2019.0000.cd
+https://doi.org/10.1287/ijoc.2023.0034.cd
 
 Below is the BibTex for citing this snapshot of the respoitory.
 
 ```
-@misc{CacheTest,
-  author =        {T. Ralphs},
+@misc{IAAS,
+  author =        {Jin Yang and Guangxin Jiang and Yinan Wang and Ying Chen},
   publisher =     {INFORMS Journal on Computing},
-  title =         {{CacheTest}},
-  year =          {2020},
-  doi =           {10.1287/ijoc.2019.0000.cd},
-  url =           {https://github.com/INFORMSJoC/2019.0000},
-  note =          {Available for download at https://github.com/INFORMSJoC/2019.0000},
+  title =         {{An Intelligent End-to-End NAS Framework for Electricity Forecasting}},
+  year =          {2023},
+  doi =           {10.1287/ijoc.2023.0034.cd},
+  url =           {https://github.com/INFORMSJoC/2023.0034},
+  note =          {Available for download at https://github.com/INFORMSJoC/2023.0034},
 }  
 ```
 
 ## Description
 
-The goal of this software is to demonstrate the effect of cache optimization.
+This repository provides data for the problem and code for the method.
+The main folders are `data`, `docs`, `results`, and `src`.
+
+- `data`: This folder includes the data and the configuration files used in the paper. 
+- `doc`: This folder contains the online supplement.
+- `results`: This folder contains the results of the experiments.
+- `src`: This folder contains the source code of IAAS and the code for experiment comparison.
 
 ## Building
+The environment of this code is Python 3.8+ and pytorch. 
 
-In Linux, to build the version that multiplies all elements of a vector by a
-constant (used to obtain the results in [Figure 1](results/mult-test.png) in the
-paper), stepping K elements at a time, execute the following commands.
+First, install the GPU version of [PyTorch](https://pytorch.org/get-started/locally/) (python3.8 and torch 1.13.0+cu116 in our case).
 
-```
-make mult
-```
-
-Alternatively, to build the version that sums the elements of a vector (used
-to obtain the results [Figure 2](results/sum-test.png) in the paper), stepping K
-elements at a time, do the following.
-
-```
-make clean
-make sum
-```
-
-Be sure to make clean before building a different version of the code.
+Second, install all the dependencies listed in ```src/requirements.txt```
 
 ## Results
+[Figure 7](results%2FFigure%207.pdf) and
+[Figure 9](results%2FFigure%209.pdf) in the paper show the boxplot of load and wind forecasting accuracies.
 
-Figure 1 in the paper shows the results of the multiplication test with different
-values of K using `gcc` 7.5 on an Ubuntu Linux box.
+[Figure 6a.pdf](results%2FFigure%206a.pdf) and
+[Figure 6b.pdf](results%2FFigure%206b.pdf) show the comparison results between predicted electricity load and actual electricity load in eight testing sets.
 
-![Figure 1](results/mult-test.png)
-
-Figure 2 in the paper shows the results of the sum test with different
-values of K using `gcc` 7.5 on an Ubuntu Linux box.
-
-![Figure 1](results/sum-test.png)
+[Figure 8a.pdf](results%2FFigure%208a.pdf) and
+[Figure 8b.pdf](results%2FFigure%208b.pdf) show the comparison results between predicted wind power and actual wind power in eight testing sets.
 
 ## Replicating
 
-To replicate the results in [Figure 1](results/mult-test), do either
+The folder `src` contains all the code that generates IAAS search result and comparison experiments.
+The major file structure is:
+- `src/pyIAAS` implement all the IAAS search code.
+- `src/search_net.py` contains the code to run the IAAS search and ablation studies.
+- `src/compare` contains all the code to run the comparison experiments.
+- `src/generate_report.py` contains all the utility functions that collect data and draw graphs.
 
-```
-make mult-test
-```
-or
-```
-python test.py mult
-```
-To replicate the results in [Figure 2](results/sum-test), do either
+To replicate all experiments, please follow the following steps:
 
-```
-make sum-test
-```
-or
-```
-python test.py sum
-```
-
-## Ongoing Development
-
-This code is being developed on an on-going basis at the author's
-[Github site](https://github.com/tkralphs/JoCTemplate).
-
-## Support
-
-For support in using this software, submit an
-[issue](https://github.com/tkralphs/JoCTemplate/issues/new).
+- The experiments in Table 1-4 and Table A.2 is finished by running `src/search_net.py` and `src/compare`. And the corresponding Figures (Figure 6-9) are generated by `src/generate_report.py`.
+- The experiment in Appendix I (RL Efficiency) is finished by running `src/search_net.py`. Figure A.4, A.5 is generated by `src/generate_report.py`.
+- The experiment in Appendix J (Seq2Seq) is finished by running `src/compare.py`. Figure A.6-9 is generated by `src/generate_report.py`.
+- The experiment in Appendix K (Heuristic Mechanism Exploration) is finished by running `src/compare.py`. Note that this experiment need to adjust some parameters in `NASConfig_load.json` and `NASConfig_wind.json`. The changed config file is in `data/heuristic`
+- The experiment in Appendix L (Ablation Studies) is finished by running `src/search_net.py`.
